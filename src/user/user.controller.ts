@@ -9,6 +9,7 @@ import {
 	Req,
 	Query,
 } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import {
 	AccountNameValidRequestDto,
@@ -20,13 +21,16 @@ import {
 import { HandleErrors } from '@util/error-decorator';
 import { JwtAuthGuard } from '@user/auth/guards/jwt-auth.guard';
 
-@Controller('')
+@ApiTags('user')
+@Controller('user')
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
 	@Post('/')
+	@ApiOperation({ summary: '회원가입' })
 	@Header('content-type', 'application/json')
 	@HandleErrors()
+	@ApiBody({ type: RegisterRequestDto })
 	async register(@Body() body: RegisterRequestDto) {
 		return await this.userService.register(body);
 	}
