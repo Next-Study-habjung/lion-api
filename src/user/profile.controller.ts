@@ -11,18 +11,22 @@ import {
 	UseGuards,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@user/auth/guards/jwt-auth.guard';
 import { FollowResponseDto, InfoResponseDto } from './dto/profile.dto';
 import { HandleErrors } from '@util/error-decorator';
 
+@ApiTags('profile')
 @Controller()
 export class ProfileController {
 	constructor(private readonly profileService: ProfileService) {}
 
 	@Get(':accountname')
+	@ApiOperation({ summary: '내 계정 정보 가져오기' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
+	@ApiBody({ type: InfoResponseDto })
 	async getProfile(
 		@Req() req,
 		@Param('accountname') accountname: string,
@@ -31,6 +35,7 @@ export class ProfileController {
 	}
 
 	@Post(':accountname/follow')
+	@ApiOperation({ summary: '팔로우하기' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -45,6 +50,7 @@ export class ProfileController {
 	}
 
 	@Delete(':accountname/unfollow')
+	@ApiOperation({ summary: '팔로우 취소' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -59,6 +65,7 @@ export class ProfileController {
 	}
 
 	@Get(':accountname/following')
+	@ApiOperation({ summary: '팔로잉 리스트' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -80,6 +87,7 @@ export class ProfileController {
 	}
 
 	@Get(':accountname/follower')
+	@ApiOperation({ summary: '나를 팔로우 한 사용자 목록' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()

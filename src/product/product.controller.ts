@@ -18,17 +18,21 @@ import {
 	ProductResponse,
 	ProductListDTO,
 } from './product.dto';
+import { ApiOperation, ApiTags, ApiBody } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@user/auth/guards/jwt-auth.guard';
 import { HandleErrors } from '@util/error-decorator';
 
+@ApiTags('product')
 @Controller()
 export class ProductController {
 	constructor(private productService: ProductService) {}
 
 	@Post('/')
+	@ApiOperation({ summary: '상품 등록' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
+	@ApiBody({ type: CreateProductDTO })
 	async createProduct(
 		@Body() productDTO: CreateProductDTO,
 		@Req() req,
@@ -37,6 +41,7 @@ export class ProductController {
 	}
 
 	@Get('/:accountname')
+	@ApiOperation({ summary: '상품 리스트 가져오기' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -51,6 +56,7 @@ export class ProductController {
 	}
 
 	@Get('/detail/:productId')
+	@ApiOperation({ summary: '상품 상세 정보 가져오기' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -62,9 +68,11 @@ export class ProductController {
 	}
 
 	@Put('/:product_id')
+	@ApiOperation({ summary: '상품 정보 수정' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
+	@ApiBody({ type: UpdateProductDTO })
 	async updateProduct(
 		@Req() req,
 		@Param('product_id') productId: string,
@@ -74,6 +82,7 @@ export class ProductController {
 	}
 
 	@Delete('/:product_id')
+	@ApiOperation({ summary: '상품 삭제' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()

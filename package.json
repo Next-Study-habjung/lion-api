@@ -19,7 +19,9 @@
 		"test:cov": "jest --coverage",
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
 		"test:e2e": "jest --config ./test/jest-e2e.json",
-		"preinstall": "husky install | chmod ug+x .husky/*"
+		"docker:dev": "docker compose -f docker-compose.dev.yml up --build --force-recreate",
+		"docker:exec": "docker exec -it lion-api dotenv -e .env.development -- ",
+		"docker:reset": "docker compose -f docker-compose.dev.yml down"
 	},
 	"dependencies": {
 		"@nestjs/common": "^10.0.0",
@@ -29,12 +31,14 @@
 		"@nestjs/mongoose": "^10.0.6",
 		"@nestjs/platform-express": "^10.0.0",
 		"@nestjs/swagger": "^7.4.0",
+		"axios": "^1.7.3",
 		"bcrypt": "^5.1.1",
 		"class-transformer": "^0.5.1",
 		"class-validator": "^0.14.1",
 		"mongoose": "^8.4.1",
 		"passport": "^0.7.0",
 		"passport-jwt": "^4.0.1",
+		"passport-kakao": "^1.0.1",
 		"passport-local": "^1.0.0",
 		"reflect-metadata": "^0.2.0",
 		"rxjs": "^7.8.1",

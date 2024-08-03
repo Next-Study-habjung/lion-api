@@ -1,0 +1,23 @@
+# 최신 Node.js LTS 이미지를 기반으로 설정합니다.
+FROM node:18
+
+# 애플리케이션 폴더를 작업 디렉토리로 설정합니다.
+WORKDIR /app
+
+# package.json과 yarn.lock 파일을 복사합니다.
+COPY package.json yarn.lock ./
+
+# 종속성을 설치합니다.
+RUN yarn install
+
+# 애플리케이션 소스 코드를 복사합니다.
+COPY . .
+
+# .env.development 파일을 복사합니다.
+COPY .env.development .env
+
+# 애플리케이션이 실행될 포트를 노출합니다.
+EXPOSE 8080
+
+# 기본 명령어는 개발 모드로 설정합니다.
+CMD ["yarn", "start:dev"]

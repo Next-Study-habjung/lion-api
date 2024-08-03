@@ -12,6 +12,7 @@ import {
 	UseGuards,
 } from '@nestjs/common';
 import { PostService } from './post.service';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
 	PostListResponseDto,
 	PostReportResponseDto,
@@ -28,6 +29,7 @@ import {
 } from './comment/dto/comment.dto';
 import { HandleErrors } from 'src/util/error-decorator';
 
+@ApiTags('post')
 @Controller()
 export class PostController {
 	constructor(
@@ -36,6 +38,7 @@ export class PostController {
 	) {}
 
 	@Get('/')
+	@ApiOperation({ summary: '모든 게시물 가져오기' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -50,6 +53,7 @@ export class PostController {
 	}
 
 	@Get('/feed')
+	@ApiOperation({ summary: '피드 가져오기' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -64,6 +68,7 @@ export class PostController {
 	}
 
 	@Get(':accountname/userpost')
+	@ApiOperation({ summary: '특정 유저 게시물 가져오기' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -79,6 +84,7 @@ export class PostController {
 	}
 
 	@Get(':post_id')
+	@ApiOperation({ summary: '게시물 상세 정보 가져오기' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -90,9 +96,11 @@ export class PostController {
 	}
 
 	@Post('/')
+	@ApiOperation({ summary: '게시물 생성' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
+	@ApiBody({ type: PostRequestDto })
 	async createPost(
 		@Body() post: PostRequestDto,
 		@Req() req,
@@ -101,9 +109,11 @@ export class PostController {
 	}
 
 	@Put(':post_id')
+	@ApiOperation({ summary: '게시물 수정' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
+	@ApiBody({ type: PostRequestDto })
 	async updatePost(
 		@Param('post_id') postId: string,
 		@Body() post: PostRequestDto,
@@ -113,6 +123,7 @@ export class PostController {
 	}
 
 	@Delete(':post_id')
+	@ApiOperation({ summary: '게시물 삭제' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -124,6 +135,7 @@ export class PostController {
 	}
 
 	@Post(':post_id/report')
+	@ApiOperation({ summary: '게시물 신고' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -132,9 +144,11 @@ export class PostController {
 	}
 
 	@Post(':post_id/comments')
+	@ApiOperation({ summary: '댓글 생성' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
+	@ApiBody({ type: CommentRequestDto })
 	async createComment(
 		@Param('post_id') postId: string,
 		@Body() comment: CommentRequestDto,
@@ -151,6 +165,7 @@ export class PostController {
 	}
 
 	@Get(':post_id/comments')
+	@ApiOperation({ summary: '댓글 리스트 가져오기' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -172,6 +187,7 @@ export class PostController {
 	}
 
 	@Delete(':post_id/comments/:comment_id')
+	@ApiOperation({ summary: '댓글 삭제' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -187,6 +203,7 @@ export class PostController {
 	}
 
 	@Post(':post_id/comments/:comment_id/report')
+	@ApiOperation({ summary: '댓글 신고' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -199,6 +216,7 @@ export class PostController {
 	}
 
 	@Post(':post_id/heart')
+	@ApiOperation({ summary: '좋아요' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
@@ -210,6 +228,7 @@ export class PostController {
 	}
 
 	@Delete(':post_id/unheart')
+	@ApiOperation({ summary: '좋아요 취소' })
 	@Header('content-type', 'application/json')
 	@UseGuards(JwtAuthGuard)
 	@HandleErrors()
