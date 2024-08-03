@@ -16,3 +16,6 @@
 
 개발 환경 백엔드 포트 localhost:8080
 배포 후 백엔드 포트 https://hapjung-study.koyeb.app/
+
+## 명세서
+localhost:8080/api로 들어가면 스웨거라는 명세 사이트가 나오는데 아직 세세한 부분은 못했으니까 구경만
