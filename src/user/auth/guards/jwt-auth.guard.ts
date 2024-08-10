@@ -5,7 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class JwtAuthGuard extends AuthGuard('jwt') {
 	handleRequest(err: Error, user) {
 		if (err || !user) {
-			throw new HttpException('유효하지 않은 토큰입니다', HttpStatus.UNAUTHORIZED);
+			throw new HttpException('유효하지 않은 토큰입니다!!', HttpStatus.UNAUTHORIZED);
 		}
 		return user;
 	}
