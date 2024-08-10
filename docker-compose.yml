@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - '8080:8080' # 외부 포트:컨테이너 포트
+    env_file:
+      - .env.production
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: shyoun94
+      MONGO_INITDB_ROOT_PASSWORD: preferyoun9$
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
