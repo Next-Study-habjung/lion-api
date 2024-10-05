@@ -22,7 +22,7 @@ import { HandleErrors } from '@util/error-decorator';
 import { JwtAuthGuard } from '@user/auth/guards/jwt-auth.guard';
 
 @ApiTags('user')
-@Controller('user')
+@Controller()
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
